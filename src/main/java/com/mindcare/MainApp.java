@@ -75,6 +75,7 @@ public class MainApp extends Application {
         btnSalvar.setOnAction(e -> {
             String titulo = tfTitle.getText().trim();
             String conteudo = taConteudo.getText().trim();
+
             if (titulo.isEmpty() || conteudo.isEmpty()) {
                 showAlert("Erro", "Título e conteúdo são obrigatórios.");
                 return;
@@ -91,6 +92,7 @@ public class MainApp extends Application {
             tfTitle.clear();
             taConteudo.clear();
             showAlert("Sucesso", "Entrada do diário salva com sucesso!");
+            refreshDiarios();
         });
 
         form.getChildren().addAll(lblTitle, tfTitle, lblConteudo, taConteudo, btnSalvar);
@@ -202,7 +204,10 @@ public class MainApp extends Application {
             }
         });
 
-        VBox diarioBox = new VBox(8, listaDiarios, btnExcluirDiario);
+        Button btnAtualizarDiario = new Button("Atualizar");
+        btnAtualizarDiario.setOnAction(e -> refreshDiarios());
+
+        VBox diarioBox = new VBox(8, listaDiarios, btnExcluirDiario, btnAtualizarDiario);
         diarioBox.setPadding(new Insets(10));
         diariosPane.setCenter(diarioBox);
         tDiarios.setContent(diariosPane);
@@ -239,7 +244,10 @@ public class MainApp extends Application {
             }
         });
 
-        VBox consultaBox = new VBox(8, listaConsultas, btnExcluirConsulta);
+        Button btnAtualizarConsulta = new Button("Atualizar");
+        btnAtualizarConsulta.setOnAction(e -> refreshConsultas());
+
+        VBox consultaBox = new VBox(8, listaConsultas, btnExcluirConsulta, btnAtualizarConsulta);
         consultaBox.setPadding(new Insets(10));
         consultasPane.setCenter(consultaBox);
         tConsultas.setContent(consultasPane);
