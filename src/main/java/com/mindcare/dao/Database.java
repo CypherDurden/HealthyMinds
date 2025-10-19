@@ -1,11 +1,24 @@
 package com.mindcare.dao;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class Database {
-    private static final String DB_URL = "jdbc:sqlite:mindcare.db";
+    private static String DB_URL;
+
+    static {
+        try (InputStream input = Database.class.getResourceAsStream("/application.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+            DB_URL = prop.getProperty("db.url");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static Connection getConnection() throws Exception {
         return DriverManager.getConnection(DB_URL);
@@ -15,7 +28,7 @@ public class Database {
         try (Connection conn = getConnection(); Statement st = conn.createStatement()) {
             // criar tabela diario
             st.execute("CREATE TABLE IF NOT EXISTS diario (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "id TEXT PRIMARY KEY," +
                     "titulo TEXT NOT NULL," +
                     "conteudo TEXT NOT NULL," +
                     "dataCriacao TEXT NOT NULL" +
@@ -23,7 +36,7 @@ public class Database {
 
             // criar tabela consulta
             st.execute("CREATE TABLE IF NOT EXISTS consulta (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "id TEXT PRIMARY KEY," +
                     "estadoMental TEXT," +
                     "dicasSobre TEXT," +
                     "relato TEXT," +

@@ -1,17 +1,19 @@
 package com.mindcare.model;
 
+import java.time.LocalDateTime;
+
 public class Consulta {
-    private Integer id;
+    private String id;
     private String estadoMental;
     private String dicasSobre;
     private String relato;
     private String tomConsulta;
     private String respostaIA;
-    private String dataConsulta;
+    private LocalDateTime dataConsulta;
 
     // getters / setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getEstadoMental() { return estadoMental; }
     public void setEstadoMental(String estadoMental) { this.estadoMental = estadoMental; }
     public String getDicasSobre() { return dicasSobre; }
@@ -22,13 +24,13 @@ public class Consulta {
     public void setTomConsulta(String tomConsulta) { this.tomConsulta = tomConsulta; }
     public String getRespostaIA() { return respostaIA; }
     public void setRespostaIA(String respostaIA) { this.respostaIA = respostaIA; }
-    public String getDataConsulta() { return dataConsulta; }
-    public void setDataConsulta(String dataConsulta) { this.dataConsulta = dataConsulta; }
+    public LocalDateTime getDataConsulta() { return dataConsulta; }
+    public void setDataConsulta(LocalDateTime dataConsulta) { this.dataConsulta = dataConsulta; }
 
     @Override
     public String toString() {
         String s = estadoMental != null ? estadoMental : "";
-        String d = dataConsulta != null ? dataConsulta : "";
+        String d = dataConsulta.toString();
         String ds = dicasSobre != null ? dicasSobre : "";
         return s + " — " + ds + " — " + d;
     }
