@@ -65,6 +65,9 @@
                     <mainClass>com.mindcare.MainApp</mainClass>
                 </configuration>
             </plugin>
+
+
+
         </plugins>
     </build>
 
