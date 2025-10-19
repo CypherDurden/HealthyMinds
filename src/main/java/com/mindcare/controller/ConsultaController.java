@@ -3,17 +3,15 @@ package com.mindcare.controller;
 import com.mindcare.dao.ConsultaDAO;
 import com.mindcare.model.Consulta;
 import com.mindcare.service.ConsultaService;
-import com.mindcare.service.MockIAService;
+import com.mindcare.service.GeminiService;
 import com.mindcare.util.AlertUtils;
+import javafx.application.Platform;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.layout.VBox;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import java.util.UUID;
+import javafx.scene.control.*;
 
-
-import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 public class ConsultaController {
 
@@ -35,11 +33,15 @@ public class ConsultaController {
     @FXML
     private TextArea taResposta;
 
+    @FXML
+    private ProgressIndicator loadingIndicator;
+
+    @FXML
+    private VBox rootContainer;
+
     private final ConsultaDAO consultaDAO = new ConsultaDAO();
-
-    private final MockIAService mockIAService = new MockIAService();
-
-    private final Consulta consulta = new Consulta();
+    private final GeminiService geminiService = new GeminiService();
+    private static final Logger logger = Logger.getLogger(ConsultaController.class.getName());
 
     @FXML
     public void initialize() {
@@ -50,34 +52,73 @@ public class ConsultaController {
     }
 
     private void enviarConsulta() {
-        String resposta = mockIAService.gerarResposta(
+        if (!ConsultaService.camposPreenchidos(
                 cbEstado.getValue(),
                 tfDicas.getText(),
                 taRelato.getText(),
                 cbTom.getValue()
-        );
-
-        if (!ConsultaService.camposPreenchidos(cbEstado.getValue(), tfDicas.getText(), taRelato.getText(), cbTom.getValue())) {
+        )) {
+            logger.warning("Preenchimento dos campos inválido, gerando alerta...");
             AlertUtils.showAlert("Erro", "Todos os campos devem ser preenchidos");
             return;
         }
 
-        consulta.setId(UUID.randomUUID().toString());
-        consulta.setEstadoMental(cbEstado.getValue());
-        consulta.setDicasSobre(tfDicas.getText());
-        consulta.setRelato(taRelato.getText());
-        consulta.setTomConsulta(cbTom.getValue());
-        consulta.setRespostaIA(resposta);
-        consulta.setDataConsulta(LocalDateTime.now());
+        prepararEnvio();
 
-        consultaDAO.salvar(consulta);
+        new Thread(() -> {
+            String respostaIA = gerarPromptEObterResposta();
 
-        taResposta.setText(resposta);
+            Platform.runLater(() -> {
+                Consulta consulta = ConsultaService.criarConsulta(
+                        cbEstado.getValue(),
+                        tfDicas.getText(),
+                        taRelato.getText(),
+                        cbTom.getValue(),
+                        respostaIA
+                );
+
+                consultaDAO.salvar(consulta);
+                atualizarInterfaceAposEnvio(respostaIA);
+                logger.info("Consulta finalizada com sucesso.");
+            });
+        }).start();
+    }
+
+
+    private void prepararEnvio() {
+        loadingIndicator.setVisible(true);
+        btnEnviar.setDisable(true);
+        taResposta.clear();
+
+        rootContainer.setEffect(new GaussianBlur(10));
+        rootContainer.setDisable(true);
+    }
+
+
+    private void atualizarInterfaceAposEnvio(String respostaIA) {
+        taResposta.setText(respostaIA);
+        loadingIndicator.setVisible(false);
+        btnEnviar.setDisable(false);
+
+        rootContainer.setEffect(null);
+        rootContainer.setDisable(false);
 
         cbEstado.getSelectionModel().clearSelection();
         tfDicas.clear();
         taRelato.clear();
         cbTom.getSelectionModel().clearSelection();
-        AlertUtils.showAlert("Sucesso", "Consulta Feita com sucesso!");
+
+        AlertUtils.showAlert("Sucesso", "Consulta feita com sucesso!");
+    }
+
+    private String gerarPromptEObterResposta() {
+        logger.info("Gerando Prompt...");
+        String prompt = geminiService.gerarPrompt(
+                cbEstado.getValue(),
+                tfDicas.getText(),
+                taRelato.getText(),
+                cbTom.getValue()
+        );
+        return geminiService.gerarResposta(prompt);
     }
 }
