@@ -15,7 +15,7 @@ public class MainApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
         Scene scene = new Scene(loader.load(), 900, 600);
 
-        stage.setTitle("Healthy Minds - MindCare (Protótipo)");
+        stage.setTitle("Healthy Minds - MindCare - v1.0");
         stage.setScene(scene);
         stage.show();
     }

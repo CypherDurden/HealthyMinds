@@ -9,7 +9,7 @@
         <Tab text="Diário" closable="false">
             <AnchorPane fx:id="tabDiarioPane" />
         </Tab>
-        <Tab text="Consulta IA" closable="false">
+        <Tab text="Advisor" closable="false">
             <AnchorPane fx:id="tabConsultaPane" />
         </Tab>
         <Tab text="Histórico" closable="false">
