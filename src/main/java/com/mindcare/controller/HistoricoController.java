@@ -9,18 +9,25 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+//import java.awt.event.MouseEvent;
+import javafx.scene.input.MouseEvent;
 import java.util.List;
+
+
+
+
+import static com.mindcare.util.AlertUtils.showAlert;
 
 public class HistoricoController {
 
     @FXML
-    private ListView<String> listaDiarios;
+    private ListView<Diario> listaDiarios;
 
     @FXML
     private Button btnExcluirDiario;
 
     @FXML
-    private ListView<String> listaConsultas;
+    private ListView<Consulta> listaConsultas;
 
     @FXML
     private Button btnExcluirConsulta;
@@ -38,47 +45,62 @@ public class HistoricoController {
         btnExcluirDiario.setOnAction(event -> excluirDiario());
         btnExcluirConsulta.setOnAction(event -> excluirConsulta());
         btnAtualizar.setOnAction(event -> atualizarListas());
+
+        // Ao clicar, mostra detalhes Diário
+        listaDiarios.setOnMouseClicked((MouseEvent e) -> {
+            Diario sel = listaDiarios.getSelectionModel().getSelectedItem();
+            if (sel != null && e.getClickCount() == 2) {
+                showAlert("Detalhes do Diário",
+                        "Título: " + sel.getTitulo() +
+                                "\nData: " + sel.getDataCriacao() +
+                                "\n\n" + sel.getConteudo());
+            }
+
+
+
+        });
+
+        // Ao clicar, mostra detalhes Consulta
+        listaConsultas.setOnMouseClicked(e -> {
+            Consulta sel = listaConsultas.getSelectionModel().getSelectedItem();
+            if (sel != null && e.getClickCount() == 2) {
+                showAlert("Detalhes da Consulta",
+                        "Estado Mental: " + sel.getEstadoMental() +
+                                "\nTom: " + sel.getTomConsulta() +
+                                "\nData: " + sel.getDataConsulta() +
+                                "\n\nRelato:\n" + sel.getRelato() +
+                                "\n\nResposta IA:\n" + sel.getRespostaIA());
+            }
+        });
+
+
     }
 
     private void atualizarListas() {
         List<Diario> diarios = diarioDAO.listar();
         List<Consulta> consultas = consultaDAO.listar();
 
-        listaDiarios.setItems(FXCollections.observableArrayList(
-                diarios.stream().map(Diario::toString).toList()
-        ));
-        listaConsultas.setItems(FXCollections.observableArrayList(
-                consultas.stream().map(Consulta::toString).toList()
-        ));
+        listaDiarios.setItems(FXCollections.observableArrayList(diarios));
+        listaConsultas.setItems(FXCollections.observableArrayList(consultas));
+
     }
+
 
     private void excluirDiario() {
-        String selecionado = listaDiarios.getSelectionModel().getSelectedItem();
+        Diario selecionado = listaDiarios.getSelectionModel().getSelectedItem();
         if (selecionado != null) {
-            List<Diario> diarios = diarioDAO.listar();
-            Diario diarioParaRemover = diarios.stream()
-                    .filter(d -> d.toString().equals(selecionado))
-                    .findFirst()
-                    .orElse(null);
-            if (diarioParaRemover != null) {
-                diarioDAO.deletar(diarioParaRemover.getId());
-                listaDiarios.getItems().remove(selecionado);
-            }
+            diarioDAO.deletar(selecionado.getId());
+            listaDiarios.getItems().remove(selecionado);
         }
     }
 
+
     private void excluirConsulta() {
-        String selecionado = listaConsultas.getSelectionModel().getSelectedItem();
+        Consulta selecionado = listaConsultas.getSelectionModel().getSelectedItem();
         if (selecionado != null) {
-            List<Consulta> consultas = consultaDAO.listar();
-            Consulta consultaParaRemover = consultas.stream()
-                    .filter(c -> c.toString().equals(selecionado))
-                    .findFirst()
-                    .orElse(null);
-            if (consultaParaRemover != null) {
-                consultaDAO.deletar(consultaParaRemover.getId());
-                listaConsultas.getItems().remove(selecionado);
-            }
+            consultaDAO.deletar(selecionado.getId());
+            listaConsultas.getItems().remove(selecionado);
         }
     }
+
 }
