@@ -14,9 +14,12 @@
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
 
+    <Text text="Histórico do Diário" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
     <ListView fx:id="listaDiarios" prefHeight="200"/>
     <Button text="Excluir Diário Selecionado" fx:id="btnExcluirDiario"/>
 
+
+    <Text text="Histórico do Advisor" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
     <ListView fx:id="listaConsultas" prefHeight="200"/>
     <Button text="Excluir Consulta Selecionada" fx:id="btnExcluirConsulta"/>
 
