@@ -36,3 +36,9 @@ Maven (IntelliJ já instala o Maven por padrão)
 1.8 - Dê dois cliques em "javafx:run"
 
 1.9 - O IntelliJ compilará o projeto e o programa abrirá via IDE
+
+2 - Como rodar o projeto na forma de um executável Java
+(Vídeo Demonstração no Windows: https://youtu.be/Eb2fXYN-Jas)
+
+2.1 - Baixe o manual correspondente ao seu computador (Windows ou Mac) disponível no diretório "Aula03-Guia de Usuário" desse repositório
+2.2 - Siga as instruções de instalação. Em caso de dúvida consulte o vídeo demonstração.
