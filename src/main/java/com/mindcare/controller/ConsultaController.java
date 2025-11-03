@@ -45,8 +45,8 @@ public class ConsultaController {
 
     @FXML
     public void initialize() {
-        cbEstado.getItems().addAll("Feliz", "Triste", "Ansioso", "Estressado");
-        cbTom.getItems().addAll("Leve", "Moderado", "Intenso");
+        cbEstado.getItems().addAll("Feliz", "Triste","Ansioso", "Estressado");
+        cbTom.getItems().addAll("Leve", "Moderado", "Humorado", "Intenso");
 
         btnEnviar.setOnAction(event -> enviarConsulta());
     }
