@@ -31,9 +31,9 @@
     <Label text="Tom da consulta:"/>
     <ComboBox fx:id="cbTom"/>
 
-    <Button text="Enviar para IA" fx:id="btnEnviar"/>
+    <Button text="Consultar Advisor" fx:id="btnEnviar"/>
 
-        <Label text="Resposta da IA:"/>
+        <Label text="Resposta da Advisor:"/>
         <TextArea fx:id="taResposta" editable="false" prefHeight="200"/>
     </VBox>
 
