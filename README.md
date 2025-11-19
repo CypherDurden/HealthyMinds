@@ -3,65 +3,42 @@
 
 HealthyMinds é um aplicativo JavaFX para apoio à saúde mental, permitindo que usuários registrem diários e consultas, com integração simulada ou real a uma IA para gerar respostas empáticas.
 
-Tecnologias utilizadas
-
+Tecnologias utilizadas:
 Java 21
-
 JavaFX 22
-
 SQLite (banco de dados local)
-
 SLF4J para logs
-
 Maven para gerenciamento de dependências
 
-Como rodar o projeto
-1. Pré-requisitos
-
+Pré-requisitos para rodar o projeto
 JDK 21 instalado
+IDE Intellij (IDE recomendada)
+Maven (IntelliJ já instala o Maven por padrão)
 
-Maven instalado
 
-IDE (IntelliJ, Eclipse, etc.) configurada para JavaFX
+1 - Como rodar o projeto na IDE IntelliJ
+(Video Demonstração: https://youtu.be/eKFh7ZBffw4)
 
-2. Clonar o repositório
+1.1. Navegue até a sua pasta local onde você deseja clonar o repositório do projeto
+1.2 Clone o repositório do nosso projeto
    git clone https://github.com/CypherDurden/HealthyMinds.git
-   cd HealthyMinds
+   
+1.3 - Abra a IDE IntelliJ
 
-3. Configurar dependências
+1.4 - No lado esquedo selecione "Projects", e no lado direito clique em Select Folder
 
-Certifique-se que o Maven está baixando todas as dependências:
+1.5 - A IDE abrirá o Windows Explorer. Navegue até a pasta clonada e confirme
 
-mvn clean install
+1.6 - No lado direito navegue até o M (de Maven)
 
-4. Configurar banco de dados
+1.7 - Expanda "Plugins -> javafx"
 
-O projeto utiliza SQLite.
+1.8 - Dê dois cliques em "javafx:run"
 
-O arquivo mindcare.db será criado automaticamente na primeira execução, junto com as tabelas diario e consulta.
+1.9 - O IntelliJ compilará o projeto e o programa abrirá via IDE
 
-5. Rodar a aplicação
-   Pelo Maven:
-   mvn javafx:run
+2 - Como rodar o projeto na forma de um executável Java
+(Vídeo Demonstração no Windows: https://youtu.be/Eb2fXYN-Jas)
 
-Pela IDE:
-
-Configure uma run configuration para o MainApp.java
-
-Certifique-se de adicionar a biblioteca JavaFX nas configurações de execução.
-
-6. Funcionalidades
-
-Registrar novos diários com título, conteúdo e data.
-
-Registrar consultas com estado mental, dicas desejadas, relato e tom da consulta.
-
-Visualizar histórico de diários e consultas.
-
-Receber respostas de IA (API FREE do gemini).
-
-7. Observações
-
-Para habilitar integração real com a IA Gemini, configure sua chave de API no serviço GeminiService.
-
-Logs detalhados são exibidos no console via SLF4J.
+2.1 - Baixe o manual correspondente ao seu computador (Windows ou Mac) disponível no diretório "Aula03-Guia de Usuário" desse repositório
+2.2 - Siga as instruções de instalação. Em caso de dúvida consulte o vídeo demonstração.
