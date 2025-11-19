@@ -13,7 +13,7 @@ public class GeminiService {
 
     public GeminiService() {
         this.client = Client.builder()
-                .apiKey("AIzaSyBuvviScdmG2Zk7ueHcq3D-yGwIVLaUJNc") // TODO esconder a secret
+                .apiKey("AIzaSyCKId9VNL_RPWRfEys4qX_f1smmFCJwKJk") // TODO esconder a secret
                 .build();
     }
 
